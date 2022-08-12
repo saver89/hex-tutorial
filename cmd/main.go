@@ -6,13 +6,10 @@ import (
 	rpc "hex-tutorial/internal/adapters/framework/left/grpc"
 	"hex-tutorial/internal/adapters/framework/right/db"
 	"hex-tutorial/internal/ports"
-	"log"
 	"os"
 )
 
 func main() {
-	var err error
-
 	// port
 	var dbaseAdapter ports.DbPort
 	var core ports.ArithmeticPort
@@ -22,10 +19,7 @@ func main() {
 	dbaseDriver := os.Getenv("DB_DRIVER")
 	dsourceName := os.Getenv("DS_NAME")
 
-	dbaseAdapter, err = db.NewAdapter(dbaseDriver, dsourceName)
-	if err != nil {
-		log.Fatalf("failed to initiate dbase connection: %v", err)
-	}
+	dbaseAdapter = db.NewAdapter(dbaseDriver, dsourceName)
 	defer dbaseAdapter.CloseDbConnection()
 
 	core = arithmetics.NewAdapter()
